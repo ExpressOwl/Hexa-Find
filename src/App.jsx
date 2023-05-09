@@ -4,6 +4,7 @@ import "./App.css";
 function App() {
   const [color, setColor] = useState("");
   const [answers, setAnswers] = useState([]);
+  const [result, setResult] = useState(false);
 
   // Math.random() returns a random number between 0-16777215
   // Math.floor() rounds it down to an integer
@@ -14,10 +15,10 @@ function App() {
     return "#" + color;
   };
 
-  useEffect(() => {
+  function generateColor() {
     // Generate random color and set it with setColor
     const correctColor = getRandomColor();
-    setColor(getRandomColor());
+    setColor(correctColor);
 
     // Generate the correctColor along with some random colours
     const randomColors = [correctColor, getRandomColor(), getRandomColor()];
@@ -26,31 +27,46 @@ function App() {
     const shuffleColors = randomColors.sort(() => Math.random() - 0.5);
 
     setAnswers(shuffleColors);
+  }
+
+  useEffect(() => {
+    generateColor();
   }, []);
 
   function handleAnswer(answer) {
     if (answer === color) {
-      // Blah blah
+      setResult(false);
+      // If correct, next question
+      generateColor();
     } else {
-      // Wrong
+      setResult(true);
     }
   }
 
   return (
-    <div className="flex h-screen justify-center items-center">
-      <div>
-        <div className="w-60 h-60 m-auto mb-8" style={{ background: color }}></div>
-        {answers.map((answer) => (
-          <button
-          onClick={handleAnswer(answer)}
-          key={answer}
-          className="mx-2 p-2"
-          >
-            {answer}
-          </button>
-        ))}
+    <>
+      <div className="flex h-screen justify-center items-center bg-background bg-cover bg-no-repeat bg-blend-multiply bg-gray-400">
+        <div>
+          <div
+            className="w-60 h-60 m-auto mb-8"
+            style={{ background: color }}
+          ></div>
+          {answers.map((answer) => (
+            <button
+              onClick={() => handleAnswer(answer)}
+              key={answer}
+              className="mx-2 p-2 bg-orange-500 mb-4"
+            >
+              {answer}
+            </button>
+          ))}
+          {result === false && <div className="text-red-500">Wrong Color</div>}
+          {result === true && (
+            <div className="text-blue-400">Color Wizard!</div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
