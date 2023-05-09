@@ -58,7 +58,7 @@ function App() {
 
   return (
     <>
-      <div className="flex h-screen justify-center items-center bg-background bg-cover bg-no-repeat bg-blend-multiply bg-gray-400">
+      <div className="flex h-screen justify-center items-center bg-[url('./assets/color-bg.jpg')] bg-cover bg-no-repeat bg-blend-multiply bg-gray-400">
         <div className="bg-[#111827] p-8 rounded-md shadow-md h-[450px]">
           <div
             className="w-72 h-72 m-auto mb-8 rounded-full"
