@@ -3,6 +3,7 @@ import "./App.css";
 
 function App() {
   const [color, setColor] = useState("");
+  const [answers, setAnswers] = useState([]);
 
   // Math.random() returns a random number between 0-16777215
   // Math.floor() rounds it down to an integer
@@ -14,14 +15,41 @@ function App() {
   };
 
   useEffect(() => {
-    // Generate random color
+    // Generate random color and set it with setColor
+    const correctColor = getRandomColor();
     setColor(getRandomColor());
+
+    // Generate the correctColor along with some random colours
+    const randomColors = [correctColor, getRandomColor(), getRandomColor()];
+
+    // Shuffle the answers so that the correct color isn't always first
+    const shuffleColors = randomColors.sort(() => Math.random() - 0.5);
+
+    setAnswers(shuffleColors);
   }, []);
+
+  function handleAnswer(answer) {
+    if (answer === color) {
+      // Blah blah
+    } else {
+      // Wrong
+    }
+  }
 
   return (
     <div className="flex h-screen justify-center items-center">
-      <div className="w-60 h-60 m-auto" style={{ background: color }}></div>
-      <span></span>
+      <div>
+        <div className="w-60 h-60 m-auto mb-8" style={{ background: color }}></div>
+        {answers.map((answer) => (
+          <button
+          onClick={handleAnswer(answer)}
+          key={answer}
+          className="mx-2 p-2"
+          >
+            {answer}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
